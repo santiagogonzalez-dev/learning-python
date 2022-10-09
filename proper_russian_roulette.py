@@ -1,7 +1,6 @@
 import random
 import collections
-
-# import webbrowser
+import webbrowser
 
 
 class Revolver:
@@ -47,16 +46,16 @@ class Revolver:
             cylinder = collections.deque(cylinder)
             cylinder.rotate(random.randint(2, self.chambers + 1))
             print("Rolling the cylinder\n")
-        self.cylinder = cylinder
+        self.cylinder = list(cylinder)
         return self.cylinder
 
     def pull_trigger(self):
         for chamber_no in self.cylinder:
+            input("Press enter to pull the trigger")
             if chamber_no == self.bullet_position:
-                # webbrowser.open('https://www.youtube.com/watch?v=QslJYDX3o8s')
                 print("BANG!")
-            else:
-                print(chamber_no)
+                webbrowser.open_new_tab('https://www.youtube.com/watch?v=QslJYDX3o8s')
+                break
 
     def print_stats(self):
         print("\nStats:")
@@ -65,7 +64,6 @@ class Revolver:
 
 
 def main():
-    print("You should lower the volume before proceeding")
     russian_roulette = Revolver()
     russian_roulette.roll_cylinder()
     russian_roulette.pull_trigger()
