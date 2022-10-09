@@ -7,11 +7,11 @@ import collections
 class Revolver:
     def __init__(self) -> None:
         self.chambers: int = 6
-        self.bullet_position: int = self.insert_round()
         self.chambers_no: tuple = (1, 2, 3, 4, 5, 6)
-        self.cylinder: list = list(self.chambers_no)  # Default state of the cylinder.
+        self.bullet_position: int = self.insert_round()  # In the cylinder.
+        self.cylinder: list = self.roll_cylinder()
 
-    def insert_round(self):
+    def insert_round(self) -> int:
         """Ask user in which place of the cylinder to place the bullet/round."""
         while True:
             try:
@@ -38,14 +38,16 @@ class Revolver:
             else:
                 return bullet_posn
 
-    def roll_cylinder(self) -> tuple:
-        roll_or_not = input("Roll the cylinder or not? Default y/N: ")
-        if roll_or_not == "y" or roll_or_not == "Y":
-            cylinder = collections.deque(self.chambers_no)
-            cylinder.rotate(random.randint(1, self.chambers + 1))
-            self.cylinder = list(cylinder)
-            print("Rolled the cylinder\n")
-            return self.cylinder
+    def roll_cylinder(self) -> list:
+        roll_or_not = input("Roll the cylinder or not? Default Y/n: ")
+        cylinder = self.chambers_no  # Default state of the cylinder.
+        if roll_or_not == "n" or roll_or_not == "N":
+            print("Not rolling the cylinder")
+        else:
+            cylinder = collections.deque(cylinder)
+            cylinder.rotate(random.randint(2, self.chambers + 1))
+            print("Rolling the cylinder\n")
+        return list(cylinder)
 
     def pull_trigger(self):
         for chamber_no in self.cylinder:
@@ -63,7 +65,6 @@ class Revolver:
 
 def main():
     russian_roulette = Revolver()
-    russian_roulette.roll_cylinder()
     russian_roulette.pull_trigger()
     russian_roulette.print_stats()
 
